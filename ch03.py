@@ -77,3 +77,38 @@ print(cle_strings(states, clean_ops)) # ['Alabama', 'Georgia', 'Georgia', 'Georg
 # 第三种方式，可以用内建的map函数，每次可以完成一种操作
 for x in map(remove_punctuation, states):
     print(x)
+
+# 匿名函数使用方便
+# 第一个例子，可以将一个自定义操作符传递给一个函数
+def apply_to_list(some_list, f):
+    return [f(x) for x in some_list]
+ints = [4, 0, 1, 5, 6]
+print(apply_to_list(ints, lambda x: x * 2)) # [8, 0, 2, 10, 12]
+
+# 第二个例子，想要根据字符串中不同字母的数量对一个字符串集合，进行排序 
+strings = ['foo', 'carrd', 'bar', 'aaaa', 'abab']
+for s in strings:
+    print(len(set(list(s))))
+strings.sort(key=lambda x: len(set(list(x))))
+print(strings) # ['aaaa', 'foo', 'abab', 'bar', 'carrd']
+
+# 柯里化，部分参数应用
+def add_numbers(x, y):
+    return x + y
+add_five = lambda y: add_numbers(5, y) # 新函数，对于add_numbers就是柯里化
+print(add_five(17)) # 22
+
+# 内建的functools模块可以使用partial函数简体这种处理
+from functools import partial
+add_six = partial(add_numbers, 6)
+print(add_six(7)) # 13
+
+
+# 生成器
+def squares(n=10):
+    print('Generating squares from 1 to {0}'.format(n ** 2))
+    for i in range(1, 5):
+        yield i ** 2
+gen = squares() # 这时候代码没有立即执行
+for x in gen:
+    print(x, end='#')
